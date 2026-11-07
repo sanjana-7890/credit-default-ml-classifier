@@ -57,8 +57,23 @@ st.markdown(
     .preview-table tr:nth-child(even) { background-color: #151e22; }
     [data-testid="stFileUploader"] section { background: #182226 !important; border: 1px dashed #405257; border-radius: 6px; }
     [data-baseweb="select"] > div { background-color: #182226 !important; color: #e7eeec !important; border-color: #405257 !important; }
-    [data-testid="stAlert"] { background-color: #182226 !important; color: #e7eeec !important; }
+    [data-testid="stAlert"], [data-testid="stAlertContainer"] {
+        background-color: #1b292d !important;
+        color: #e7eeec !important;
+        border-color: #405257 !important;
+    }
+    [data-testid="stAlertContentInfo"], [data-testid="stAlertContentInfo"] * {
+        color: #dce7e4 !important;
+    }
     [data-testid="stDownloadButton"] button, .stButton button { border-radius: 6px; background-color: #203136 !important; color: #e7eeec !important; border-color: #405257 !important; }
+    [data-testid="stFileUploader"] button {
+        background-color: #203136 !important;
+        color: #e7eeec !important;
+        border-color: #405257 !important;
+    }
+    [data-testid="stFileUploader"] button p,
+    [data-testid="stFileUploader"] small,
+    [data-testid="stFileUploader"] span { color: #c4cfcd !important; }
     </style>
     """,
     unsafe_allow_html=True,
