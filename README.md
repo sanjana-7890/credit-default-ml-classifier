@@ -12,7 +12,7 @@ The original UCI workbook and its CSV copy are stored in `data/raw/`. The traini
 
 ## GitHub Repository Link
 
-[credit-default-ml-classification](https://github.com/sanjana-7890/credit-default-ml-classification)
+[credit-default-ml-classification](https://github.com/sanjana-7890/credit-default-ml-classifier)
 
 ## Models Used
 
@@ -51,4 +51,4 @@ The training script performs the cross-validated search, saves five fitted model
 
 ## Live Streamlit App
 
-[Open the live Credit Default Classification app](https://credit-default-ml-classification-nw2ybnuvxjracbnr82aicc.streamlit.app/)
+[Open the live Credit Default Classification app](https://credit-default-ml-classifier-acjczxtppvy6jvwmluy7er.streamlit.app/)
