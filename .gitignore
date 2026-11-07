@@ -6,8 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
-# Data folder to be ignored 
-task/
+# Distribution / packaging
+.devcontainer/
+.streamlit/
 
 # Ignore Json Files
 *.json

@@ -38,17 +38,27 @@ st.caption("Credit risk classification | UCI Default of Credit Card Clients")
 st.markdown(
     """
     <style>
-    [data-testid="stHeader"] { background: transparent; }
+    :root { color-scheme: dark; }
+    html, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
+        background-color: #10171a !important;
+        color: #e7eeec !important;
+    }
+    [data-testid="stHeader"], [data-testid="stToolbar"] { background: transparent !important; }
+    [data-testid="stSidebar"] { background-color: #151e22 !important; }
     div.block-container { max-width: 1280px; padding-top: 2rem; padding-bottom: 3rem; }
-    h1, h2, h3 { color: #eef4f2; font-weight: 650; }
-    p, label { color: #c4cfcd; }
-    [data-testid="stCaptionContainer"] { color: #9eadaa; }
-    [data-testid="stMetric"] { background: transparent; border: 0; padding: 0.45rem 0.15rem; }
-    [data-testid="stMetricLabel"] p { color: #aab8b5; font-size: 0.9rem; }
-    [data-testid="stMetricValue"] { color: #eef4f2; font-size: 1.7rem; }
-    [data-testid="stDataFrame"] { border: 1px solid #26363a; border-radius: 6px; }
-    [data-testid="stFileUploader"] section { background: #141d20; border: 1px dashed #34474a; border-radius: 6px; }
-    [data-testid="stDownloadButton"] button, .stButton button { border-radius: 6px; }
+    h1, h2, h3 { color: #eef4f2 !important; font-weight: 650; }
+    p, label, [data-testid="stCaptionContainer"] { color: #c4cfcd !important; }
+    [data-testid="stMetric"] { background: transparent !important; border: 0; padding: 0.45rem 0.15rem; }
+    [data-testid="stMetricLabel"] p { color: #aab8b5 !important; font-size: 0.9rem; }
+    [data-testid="stMetricValue"] { color: #eef4f2 !important; font-size: 1.7rem; }
+    .preview-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .preview-table th { color: #b6c4c0; text-align: left; padding: 0.65rem; border-bottom: 1px solid #344348; }
+    .preview-table td { color: #e7eeec; padding: 0.65rem; border-bottom: 1px solid #273438; }
+    .preview-table tr:nth-child(even) { background-color: #151e22; }
+    [data-testid="stFileUploader"] section { background: #182226 !important; border: 1px dashed #405257; border-radius: 6px; }
+    [data-baseweb="select"] > div { background-color: #182226 !important; color: #e7eeec !important; border-color: #405257 !important; }
+    [data-testid="stAlert"] { background-color: #182226 !important; color: #e7eeec !important; }
+    [data-testid="stDownloadButton"] button, .stButton button { border-radius: 6px; background-color: #203136 !important; color: #e7eeec !important; border-color: #405257 !important; }
     </style>
     """,
     unsafe_allow_html=True,
@@ -182,14 +192,36 @@ with preview_column:
     preview = overview_data.loc[:, preview_columns].head(10).rename(
         columns={TARGET: "DEFAULT"}
     )
-    st.dataframe(
-        preview,
-        hide_index=True,
-        width="stretch",
+    st.markdown(
+        preview.to_html(index=False, border=0, classes="preview-table", escape=True),
+        unsafe_allow_html=True,
     )
 with balance_column:
     st.subheader("Target distribution")
-    st.bar_chart(class_counts, color="#55D6BE", height=240, horizontal=True)
+    chart_counts = class_counts.loc[["Default", "No default"]]
+    figure, axis = plt.subplots(figsize=(4.4, 2.5), facecolor="#10171a")
+    axis.set_facecolor("#10171a")
+    bars = axis.barh(chart_counts.index, chart_counts.values, color="#55D6BE", height=0.56)
+    axis.set_xlim(0, chart_counts.max() * 1.16)
+    axis.set_xlabel("Clients", color="#c4cfcd")
+    axis.tick_params(colors="#c4cfcd", axis="y", length=0)
+    axis.tick_params(colors="#c4cfcd", axis="x")
+    axis.xaxis.grid(color="#2a3a3f", linewidth=0.8)
+    axis.set_axisbelow(True)
+    for spine in axis.spines.values():
+        spine.set_visible(False)
+    for bar, count in zip(bars, chart_counts.values):
+        axis.text(
+            count + chart_counts.max() * 0.02,
+            bar.get_y() + bar.get_height() / 2,
+            f"{count:,}",
+            color="#e7eeec",
+            va="center",
+            fontsize=9,
+        )
+    figure.tight_layout()
+    st.pyplot(figure)
+    plt.close(figure)
 
 with st.expander("Dataset details"):
     st.write(
